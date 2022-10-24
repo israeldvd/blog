@@ -1,96 +1,108 @@
 /* Base styles & resets */
 
+:root {
+    /* https://colorkit.co/color-palette-generator/cdb4a2-a42661-FFCBDD-1c183c-d14e34-523249-7cf99b/ */
+    --color-primary: #523249;
+    --color-secondary: #1c183c;
+    --color-clear-1: #ffcbdd;
+    --color-clear-2: #eee;
+    --color-accent: #a42661;
+    --color-warning: #ba4325;
+    --color-success: #7cf99b;
+}
+
 html {
-  font-family: 'Roboto Slab', serif;
-  color: rgb(46, 45, 48);
+    font-family: "Roboto Slab", serif;
+    color: var(--color-secondary);
 }
 
 body {
-  margin: 0;
+    margin: 0;
 }
 
 main {
-  width: 80%;
-  margin: 3rem auto;
+    width: 80%;
+    margin: 3rem auto;
 }
 
 a {
-  text-decoration: none;
-  color:rgb(89, 0, 255);
+    text-decoration: none;
+    color: var(--color-primary);
 }
 
 a:hover,
 a:active {
-  color:rgb(232, 90, 245);
+    color: var(--color-accent);
 }
 
-ul, ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+ul,
+ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 /* Global components */
 
 .btn {
-  cursor: pointer;
-  font: inherit;
-  background-color: rgb(89, 0, 255);
-  border: 1px solid rgb(89, 0, 255);
-  color: white;
-  padding: 0.5rem 1.5rem;
-  border-radius: 4px;
+    cursor: pointer;
+    font: inherit;
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
 }
 
 .btn:hover,
 .btn:active {
-  background-color: rgb(71, 4, 196);
-  border-color: rgb(71, 4, 196);
-  color: white;
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
 }
 
 .btn.btn-alt {
-  background-color: transparent; 
-  border-color: transparent;
-  color:rgb(89, 0, 255);
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--color-warning);
 }
 
 .btn.btn-alt:hover,
 .btn.btn-alt:active {
-  color:rgb(232, 90, 245);
+    color: var(--color-accent);
 }
 
 /* Site-wide content / elements */
 
 #main-header {
-  padding: 2rem 10%;
-  background-color: rgb(89, 0, 255);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    padding: 2rem 10%;
+    background-color: var(--color-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #logo a {
-  font-size: 2rem;
-  font-weight: bold;
-  color: white;
-  font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    font-family: "Roboto", sans-serif;
 }
 
 #main-header ul {
-  display: flex;
+    display: flex;
 }
 
 #main-header li {
-  margin-left: 2rem;
+    margin-left: 2rem;
 }
 
 #main-header nav a {
-  color: white;
-  font-size: 1.25rem;
+    color: white;
+    font-size: 1.25rem;
 }
 
 #main-header nav a:hover,
 #main-header nav a:active {
-  color:rgb(255, 217, 0);
+    color: var(--color-clear-1);
 }
