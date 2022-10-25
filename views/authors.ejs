@@ -3,11 +3,26 @@
     <head>
         <%- include('includes/head', {title: "Add new author"}) %>
         <link rel="stylesheet" href="/styles/forms.css" />
+        <link rel="stylesheet" href="/styles/authors.css" />
     </head>
     <body>
         <%- include('includes/header') %>
         <main>
-            <h1>Add a new author</h1>
+            <h1>Authors</h1>
+            <h2>Current authors</h2>
+            <% if (!authors || authors.length===0) { %>
+            <p>No authors were found.</p>
+            <% } else { %>
+            <ul id="authors-list">
+                <% for( const author of authors ) { %>
+                <li>
+                    <a href=""><%= author.name %></a>
+                    <button class="btn btn-alt">Delete</button>
+                </li>
+                <% } %>
+            </ul>
+            <% } %>
+            <h2>Add a new person</h2>
             <form action="/authors" method="POST">
                 <div class="form-control">
                     <label for="author-name">Author name</label>
