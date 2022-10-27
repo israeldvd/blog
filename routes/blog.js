@@ -62,6 +62,29 @@ router.get("/new-post", async function (req, res) {
     res.render("create-post", { authors: authors });
 });
 
+router.get("/authors", async function (req, res) {
+    res.render("authors");
+});
+
+router.post("/authors", async function (req, res) {
+    const newAuthor = {
+        name: req.body["author-name"],
+    };
+
+    const authorsCollection = await db.getDb().collection("authors");
+    const count = await authorsCollection.countDocuments({
+        name: newAuthor.name,
+    });
+
+    if (count === 0) {
+        authorsCollection.insertOne(newAuthor);
+        res.redirect("/posts");
+    } else {
+        console.log("There is already an autor with this name");
+        res.status(500).render("500");
+    }
+});
+
 router.get("/posts/:id", async function (req, res, next) {
     const authorID = req.params.id;
     let authorObjectId;

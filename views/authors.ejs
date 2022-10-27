@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('includes/head', {title: "Add new author"}) %>
+        <link rel="stylesheet" href="/styles/forms.css" />
+    </head>
+    <body>
+        <%- include('includes/header') %>
+        <main>
+            <h1>Add a new author</h1>
+            <form action="/authors" method="POST">
+                <div class="form-control">
+                    <label for="author-name">Author name</label>
+                    <input
+                        type="text"
+                        id="author-name"
+                        name="author-name"
+                        required
+                        maxlength="255"
+                    />
+                </div>
+                <button class="btn">Add Author</button>
+            </form>
+        </main>
+    </body>
+</html>
