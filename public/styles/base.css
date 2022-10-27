@@ -12,7 +12,7 @@
 }
 
 html {
-    font-family: "Roboto Slab", serif;
+    font-family: "Quicksand", sans-serif;
     color: var(--color-secondary);
 }
 
@@ -40,6 +40,11 @@ ol {
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+h1,
+h2 {
+    font-family: "Gelasio", serif;
 }
 
 /* Global components */
@@ -80,13 +85,14 @@ ol {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow: auto;
 }
 
 #logo a {
     font-size: 2rem;
     font-weight: bold;
     color: white;
-    font-family: "Roboto", sans-serif;
+    font-family: "Gelasio", serif;
 }
 
 #main-header ul {

@@ -15,6 +15,7 @@
   border-radius: 8px;
   padding: 1rem;
   background-color: var(--color-clear-2);
+  overflow: auto;
 }
 
 .post-item h2,
