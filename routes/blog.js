@@ -10,7 +10,7 @@ const ObjectId = mongodb.ObjectId;
 
 const multerDist = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, "../images"));
+        cb(null, "images/");
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.originalname}`);
@@ -76,7 +76,12 @@ router.get("/new-post", async function (req, res) {
 });
 
 router.get("/authors", async function (req, res) {
-    const authors = await db.getDb().collection("authors").find().toArray();
+    const authors = await db
+        .getDb()
+        .collection("authors")
+        .find()
+        .project({ name: 1, imagePath: 1 })
+        .toArray();
     res.render("authors", { authors: authors });
 });
 
