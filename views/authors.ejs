@@ -9,21 +9,23 @@
         <%- include('includes/header') %>
         <main>
             <h1>Authors</h1>
-            <h2>Current authors</h2>
-            <% if (!authors || authors.length===0) { %>
-            <p>No authors were found.</p>
-            <% } else { %>
-            <ul id="authors-list">
-                <% for( const author of authors ) { %>
-                <li>
-                    <a href=""><%= author.name %></a>
-                    <button class="btn btn-alt">Delete</button>
-                </li>
+            <div>
+                <h2>Current authors</h2>
+                <% if (!authors || authors.length===0) { %>
+                <p>No authors were found.</p>
+                <% } else { %>
+                <ul id="authors-list">
+                    <% for( const author of authors ) { %>
+                    <li>
+                        <a href=""><%= author.name %></a>
+                        <button class="btn btn-alt">Delete</button>
+                    </li>
+                    <% } %>
+                </ul>
                 <% } %>
-            </ul>
-            <% } %>
-            <h2>Add a new person</h2>
+            </div>
             <form action="/authors" method="POST">
+                <h2>Add a new person</h2>
                 <div class="form-control">
                     <label for="author-name">Author name</label>
                     <input
@@ -34,7 +36,7 @@
                         maxlength="255"
                     />
                 </div>
-                <button class="btn">Add Author</button>
+                <button type="submit" class="btn">Add Author</button>
             </form>
         </main>
     </body>
