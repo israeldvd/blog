@@ -9,7 +9,7 @@
         <%- include('includes/header') %>
         <main>
             <h1>Authors</h1>
-            <section>
+            <section id="authors-list">
                 <h2>Current authors</h2>
                 <% if (!authors || authors.length===0) { %>
                 <p>No authors were found.</p>
@@ -32,7 +32,7 @@
                 </form>
                 <% } %>
             </section>
-            <section>
+            <section id="expand-authors">
                 <h2>Add a new person</h2>
                 <form action="/authors" method="POST" enctype="multipart/form-data">
                     <div class="form-control">
