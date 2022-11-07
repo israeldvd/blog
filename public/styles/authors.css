@@ -1,6 +1,5 @@
 #authors-list {
     box-sizing: border-box;
-    max-width: 50%;
     text-align: center;
     border: 3px solid var(--color-clear-2);
     border-radius: 15px;
@@ -10,9 +9,21 @@
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
+    overflow: hidden;
 }
 
-#authors-list div {
-    width: 150px;
-    max-height: 50px;
+.author-box {
+    border: rgba(0, 0, 0, 0.3) 2px solid;
+    padding: 1rem 1.5rem;
+    height: 3rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.author-box a {
+    font-weight: bold;
+    padding: 0px 1.5rem;
 }
