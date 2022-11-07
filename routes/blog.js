@@ -1,10 +1,23 @@
+const path = require("path");
+
 const express = require("express");
 const mongodb = require("mongodb");
+const multer = require("multer");
 
 const db = require("../data/database");
 
 const ObjectId = mongodb.ObjectId;
 
+const multerDist = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, "../images"));
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
+
+const upload = multer({ storage: multerDist });
 const router = express.Router();
 
 router.get("/", function (req, res) {
@@ -67,31 +80,42 @@ router.get("/authors", async function (req, res) {
     res.render("authors", { authors: authors });
 });
 
-router.post("/authors", async function (req, res) {
-    const newAuthor = {
-        name: req.body["author-name"],
-    };
+router.post(
+    "/authors",
+    upload.single("author-image"),
+    async function (req, res) {
+        const uploadedImageFile = req.file;
+        console.log(uploadedImageFile);
 
-    const authorsCollection = await db.getDb().collection("authors");
-    const count = await authorsCollection.countDocuments({
-        name: newAuthor.name,
-    });
+        const newAuthor = {
+            name: req.body["author-name"],
+            imagePath: uploadedImageFile.path,
+        };
 
-    if (count === 0) {
-        authorsCollection.insertOne(newAuthor);
-        res.redirect("/authors");
-    } else {
-        console.log("There is already an autor with this name");
-        res.status(500).render("500");
+        const authorsCollection = await db.getDb().collection("authors");
+        const count = await authorsCollection.countDocuments({
+            name: newAuthor.name,
+        });
+
+        if (count === 0) {
+            authorsCollection.insertOne(newAuthor);
+            res.redirect("/authors");
+        } else {
+            console.log("There is already an autor with this name");
+            res.status(500).render("500");
+        }
     }
-});
+);
 
-router.post("/authors/:id/delete", async function(req, res){
+router.post("/authors/:id/delete", async function (req, res) {
     const authorId = new ObjectId(req.params.id);
-    const queryResult = await db.getDb().collection('authors').deleteOne({_id: authorId});
+    const queryResult = await db
+        .getDb()
+        .collection("authors")
+        .deleteOne({ _id: authorId });
     console.log(queryResult);
     res.redirect("/authors");
-})
+});
 
 router.get("/posts/:id", async function (req, res, next) {
     const authorID = req.params.id;

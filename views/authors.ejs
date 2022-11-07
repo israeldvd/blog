@@ -9,7 +9,7 @@
         <%- include('includes/header') %>
         <main>
             <h1>Authors</h1>
-            <div>
+            <section>
                 <h2>Current authors</h2>
                 <% if (!authors || authors.length===0) { %>
                 <p>No authors were found.</p>
@@ -31,21 +31,33 @@
                     </ul>
                 </form>
                 <% } %>
-            </div>
-            <form action="/authors" method="POST">
+            </section>
+            <section>
                 <h2>Add a new person</h2>
-                <div class="form-control">
-                    <label for="author-name">Author name</label>
-                    <input
-                        type="text"
-                        id="author-name"
-                        name="author-name"
-                        required
-                        maxlength="255"
-                    />
-                </div>
-                <button type="submit" class="btn">Add Author</button>
-            </form>
+                <form action="/authors" method="POST" enctype="multipart/form-data">
+                    <div class="form-control">
+                        <label for="author-name">Name</label>
+                        <input
+                            type="text"
+                            id="author-name"
+                            name="author-name"
+                            required
+                            maxlength="255"
+                        />
+                    </div>
+                    <div class="form-control">
+                        <label for="author-image">Image</label>
+                        <input
+                            type="file"
+                            name="author-image"
+                            id="author-image"
+                            accept="image/jpeg,image/png"
+                            required
+                        />
+                    </div>
+                    <button type="submit" class="btn">Add Author</button>
+                </form>
+            </section>
         </main>
     </body>
 </html>
