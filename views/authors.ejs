@@ -14,14 +14,22 @@
                 <% if (!authors || authors.length===0) { %>
                 <p>No authors were found.</p>
                 <% } else { %>
-                <ul id="authors-list">
-                    <% for( const author of authors ) { %>
-                    <li class="author-box">
-                        <a href=""><%= author.name %></a>
-                        <button class="btn btn-alt">Delete</button>
-                    </li>
-                    <% } %>
-                </ul>
+                <form method="POST">
+                    <ul id="authors-list">
+                        <% for( const author of authors ) { %>
+                        <li class="author-box">
+                            <a><%= author.name %></a>
+                            <button
+                                type="submit"
+                                class="btn btn-alt"
+                                formaction="authors/<%= author._id %>/delete"
+                            >
+                                Delete
+                            </button>
+                        </li>
+                        <% } %>
+                    </ul>
+                </form>
                 <% } %>
             </div>
             <form action="/authors" method="POST">

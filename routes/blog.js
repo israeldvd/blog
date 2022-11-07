@@ -86,6 +86,13 @@ router.post("/authors", async function (req, res) {
     }
 });
 
+router.post("/authors/:id/delete", async function(req, res){
+    const authorId = new ObjectId(req.params.id);
+    const queryResult = await db.getDb().collection('authors').deleteOne({_id: authorId});
+    console.log(queryResult);
+    res.redirect("/authors");
+})
+
 router.get("/posts/:id", async function (req, res, next) {
     const authorID = req.params.id;
     let authorObjectId;
