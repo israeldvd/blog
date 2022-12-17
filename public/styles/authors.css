@@ -33,9 +33,13 @@ form {
     padding: 0px 1.5rem;
 }
 
-.author-box img {
+.author-box img, #image-preview {
     width: 3rem;
     height: 3rem;
     border-radius: 1.5rem;
     object-fit: cover;
+}
+
+#image-preview {
+    display: none;
 }

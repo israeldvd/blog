@@ -4,6 +4,7 @@
         <%- include('includes/head', {title: "Add new author"}) %>
         <link rel="stylesheet" href="/styles/forms.css" />
         <link rel="stylesheet" href="/styles/authors.css" />
+        <script src="/scripts/image-preview.js" defer></script>
     </head>
     <body>
         <%- include('includes/header') %>
@@ -48,6 +49,11 @@
                     </div>
                     <div class="form-control">
                         <label for="author-image">Image</label>
+                        <img
+                            id="image-preview"
+                            src=""
+                            alt="Author's image preview"
+                        />
                         <input
                             type="file"
                             name="author-image"
