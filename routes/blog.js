@@ -9,6 +9,7 @@ const db = require("../data/database");
 const ObjectId = mongodb.ObjectId;
 
 const multerDist = multer.diskStorage({
+    // TODO: optimize uploaded images and handle duplicated or obsolete images
     destination: (req, file, cb) => {
         cb(null, "images/");
     },
@@ -90,7 +91,6 @@ router.post(
     upload.single("author-image"),
     async function (req, res) {
         const uploadedImageFile = req.file;
-        console.log(uploadedImageFile);
 
         const newAuthor = {
             name: req.body["author-name"],
@@ -106,7 +106,7 @@ router.post(
             authorsCollection.insertOne(newAuthor);
             res.redirect("/authors");
         } else {
-            console.log("There is already an autor with this name");
+            console.log("There is already an author with this name");
             res.status(500).render("500");
         }
     }
