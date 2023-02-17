@@ -24,8 +24,8 @@
     <section id="comments">
       <h2>Comments</h2>
       <div id="comments-list">
-        <% if (estimatedCommentsCount > 0) { %>
-          <p>This post has <%= estimatedCommentsCount %> comment<% if (estimatedCommentsCount>1) { %>s<% } %>.</p>
+        <% if (postCommentsCount > 0) { %>
+          <p>This post has <%= postCommentsCount %> comment<% if (postCommentsCount>1) { %>s<% } %>.</p>
           <button id="load-comments-btn" class="btn btn-alt" data-postid="<%= post._id %>">Load more</button>
         <% } else if (!comments || comments.length===0) { %>
           <p>No comments here. Write something now!</p>

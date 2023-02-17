@@ -165,7 +165,7 @@ router.get("/posts/:id", async function (req, res, next) {
     res.render("post-detail", {
         post: foundPost,
         comments: null,
-        estimatedCommentsCount: commentsCount,
+        postCommentsCount: commentsCount,
     });
 });
 
