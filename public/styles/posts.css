@@ -53,5 +53,20 @@
 }
 
 #body {
-  white-space: pre-wrap; /* This ensures that line breaks and whitespace are kept */
+  white-space: pre-wrap;
+  /* This ensures that line breaks and whitespace are kept */
+}
+
+#comments {
+  padding: 2rem 20%;
+  background-color: var(--color-clear-2);
+  text-align: center;
+  border-radius: 15px;
+  margin: 30px 0px;
+}
+
+.comment {
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 1rem;
 }

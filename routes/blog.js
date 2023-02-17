@@ -5,6 +5,7 @@ const mongodb = require("mongodb");
 const multer = require("multer");
 
 const db = require("../data/database");
+const { resolveObjectURL } = require("buffer");
 
 const ObjectId = mongodb.ObjectId;
 
@@ -155,7 +156,17 @@ router.get("/posts/:id", async function (req, res, next) {
 
     foundPost.createdAt = foundPost.createdAt.toISOString();
 
-    res.render("post-detail", { post: foundPost });
+    // number of comments
+    const commentsCount = await db
+        .getDb()
+        .collection("comments")
+        .countDocuments({  postId: ObjectId(authorID) });
+
+    res.render("post-detail", {
+        post: foundPost,
+        comments: null,
+        estimatedCommentsCount: commentsCount,
+    });
 });
 
 router.get("/posts/:id/edit", async function (req, res, next) {
@@ -223,6 +234,17 @@ router.post("/posts/:id/delete", async function (req, res) {
         .deleteOne({ _id: postId });
     console.log(result);
     res.redirect("/posts");
+});
+
+router.get("/posts/:id/comments", async function (req, res) {
+    const postId = new ObjectId(req.params.id);
+    const comments = await db
+        .getDb()    
+        .collection("comments")
+        .find()
+        .toArray();
+
+    res.json({ comments: comments });
 });
 
 module.exports = router;
