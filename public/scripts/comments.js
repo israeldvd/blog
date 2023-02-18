@@ -26,10 +26,8 @@ async function fetchComments() {
     const response = await fetch(`/posts/${postId}/comments`);
     const responseData = await response.json();
 
-    commentsUListElem.innerHTML = '';
-    commentsUListElem.appendChild(
-        createCommentsList(responseData.comments)
-    );
+    commentsUListElem.innerHTML = "";
+    commentsUListElem.appendChild(createCommentsList(responseData.comments));
 }
 
 loadCommentsBtnElem?.addEventListener("click", fetchComments);
