@@ -5,7 +5,7 @@ const mongodb = require("mongodb");
 const multer = require("multer");
 
 const db = require("../data/database");
-const { resolveObjectURL } = require("buffer");
+const { getDb } = require("../data/database");
 
 const ObjectId = mongodb.ObjectId;
 
@@ -160,7 +160,7 @@ router.get("/posts/:id", async function (req, res, next) {
     const commentsCount = await db
         .getDb()
         .collection("comments")
-        .countDocuments({  postId: ObjectId(authorID) });
+        .countDocuments({ postId: ObjectId(authorID) });
 
     res.render("post-detail", {
         post: foundPost,
@@ -239,12 +239,25 @@ router.post("/posts/:id/delete", async function (req, res) {
 router.get("/posts/:id/comments", async function (req, res) {
     const postId = new ObjectId(req.params.id);
     const comments = await db
-        .getDb()    
+        .getDb()
         .collection("comments")
-        .find()
+        .find({ postId: postId })
         .toArray();
 
     res.json({ comments: comments });
+});
+
+router.post("/posts/:id/comments", async function (req, res) {
+    const postId = new ObjectId(req.params.id);
+    const newCommentData = {
+        postId: postId,
+        title: req.body.title,
+        message: req.body.message,
+    };
+
+    await getDb().collection("comments").insertOne(newCommentData);
+
+    res.json({ feedback: "Commented added!" });
 });
 
 module.exports = router;

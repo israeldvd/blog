@@ -33,14 +33,14 @@
       </ol>
       <hr />
       <h2 class="form-heading">Leave a comment</h2>
-      <form id="new-comment">
+      <form id="new-comment" data-postid="<%= post._id %>">
         <div class="form-control">
           <label for="title">Comment title</label>
           <input type="text" id="title" name="title" required />
         </div>
         <div class="form-control">
-          <label for="text">Your comment</label>
-          <textarea name="text" id="text" rows="3" required></textarea>
+          <label for="message">Your comment</label>
+          <textarea name="message" id="message" rows="3" required></textarea>
         </div>
         <button class="btn">Save Comment</button>
       </form>
