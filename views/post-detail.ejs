@@ -23,14 +23,14 @@
     </section>
     <section id="comments">
       <h2>Comments</h2>
-      <ol id="comments-list">
+      <div id="comments-board">
         <% if (postCommentsCount > 0) { %>
           <p>This post has <%= postCommentsCount %> comment<% if (postCommentsCount>1) { %>s<% } %>.</p>
           <button id="load-comments-btn" class="btn btn-alt" data-postid="<%= post._id %>">Load more</button>
         <% } else { %>
           <p>No comments here. Write something now!</p>
         <% } %>
-      </ol>
+      </div>
       <hr />
       <h2 class="form-heading">Leave a comment</h2>
       <form id="new-comment" data-postid="<%= post._id %>">

@@ -1,9 +1,10 @@
 const loadCommentsBtnElem = document.getElementById("load-comments-btn");
-const commentsUListElem = document.getElementById("comments-list");
+const commentsUListElem = document.getElementById("comments-board");
 const newCommentFormElem = document.querySelector("#new-comment");
 
 function createCommentsList(comments) {
     const commentsListElement = document.createElement("ul");
+    commentsListElement.id = "comments-list";
 
     for (const comment of comments) {
         const commentElement = document.createElement("li");
