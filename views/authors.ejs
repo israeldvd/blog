@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="/styles/forms.css" />
         <link rel="stylesheet" href="/styles/authors.css" />
         <script src="/scripts/image-preview.js" defer></script>
+        <script src="/scripts/authors.js" defer></script>
     </head>
     <body>
         <%- include('includes/header') %>
@@ -15,7 +16,7 @@
                 <% if (!authors || authors.length===0) { %>
                 <p>No authors were found.</p>
                 <% } else { %>
-                <form method="POST">
+                <form>
                     <ul id="authors-list">
                         <% for( const author of authors ) { %>
                         <li class="author-box">
@@ -24,7 +25,7 @@
                             <button
                                 type="submit"
                                 class="btn btn-alt"
-                                formaction="authors/<%= author._id %>/delete"
+                                data-author-id="<%= author._id %>"
                             >
                                 Delete
                             </button>

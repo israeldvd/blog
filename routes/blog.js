@@ -113,14 +113,25 @@ router.post(
     }
 );
 
-router.post("/authors/:id/delete", async function (req, res) {
+router.delete("/authors/:id", async function (req, res) {
     const authorId = new ObjectId(req.params.id);
-    const queryResult = await db
-        .getDb()
-        .collection("authors")
-        .deleteOne({ _id: authorId });
-    console.log(queryResult);
-    res.redirect("/authors");
+
+    try {
+        const queryResult = await db
+            .getDb()
+            .collection("authors")
+            .deleteOne({ _id: authorId });
+
+        console.log(queryResult);
+        if (queryResult.deletedCount === 1) {
+            res.status(200).json({ message: "Author deleted sucessfully!" });
+        } else {
+            res.status(404).json({ message: "Author not found." });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" });
+        next(error);
+    }
 });
 
 router.get("/posts/:id", async function (req, res, next) {
@@ -226,7 +237,7 @@ router.post("/posts/:id/edit", async function (req, res, next) {
     res.redirect("/posts"); //see list of posts again, after updating
 });
 
-router.post("/posts/:id/delete", async function (req, res) {
+router.delete("/posts/:id", async function (req, res) {
     const postId = new ObjectId(req.params.id);
     const result = await db
         .getDb()
