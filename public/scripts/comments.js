@@ -1,7 +1,13 @@
 const loadCommentsBtnElem = document.getElementById("load-comments-btn");
 const commentsUListElem = document.getElementById("comments-board");
 const newCommentFormElem = document.querySelector("#new-comment");
+const commentsCountTexts = document.querySelectorAll(".comments-count");
 
+function updateCommentsCountBy(increment) {
+    for (counterText of commentsCountTexts) {
+        counterText.innerText = +counterText.innerText + increment;
+    }
+}
 function createCommentItem(commentData) {
     const commentElement = document.createElement("li");
 
@@ -38,6 +44,21 @@ async function fetchComments() {
     commentsUListElem.appendChild(createCommentsList(responseData.comments));
 }
 
+function appendCommentToUi(comment) {
+    // given a list of comments present
+    const commentsList =
+        document.getElementById("comments-list") ||
+        commentsUListElem.querySelector("ul") ||
+        commentsUListElem.querySelector("ol");
+
+    // append new comment to this list
+    if (commentsList) {
+        commentsList.appendChild(createCommentItem(comment));
+    }
+
+    updateCommentsCountBy(1);
+}
+
 async function addNewComment(event) {
     event.preventDefault();
 
@@ -70,27 +91,13 @@ async function addNewComment(event) {
     });
 
     if (response.ok) {
-        const commentsCountTexts = document.querySelectorAll(".comments-count");
-
         // no query of comments was made
         if (!commentsCountTexts.length > 0) {
-            document.querySelector("#comments-board > p").innerText =
+            document.querySelector("#comments-board > p").textContent =
                 "You have the first comment. Update the page to see it.";
         }
 
-        // update the counter
-        for (counterText of commentsCountTexts) {
-            counterText.innerText = +counterText.innerText + 1;
-        }
-
-        // append new comment into the list
-        if (
-            document.getElementById("comments-list") ||
-            commentsUListElem.querySelector("ul") ||
-            commentsUListElem.querySelector("ol")
-        ) {
-            commentsList.appendChild(createCommentItem(comment));
-        }
+        appendCommentToUi(comment);
     } else alert("Could not save the comment right now.");
 }
 
