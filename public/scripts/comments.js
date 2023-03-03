@@ -3,11 +3,16 @@ const commentsUListElem = document.getElementById("comments-board");
 const newCommentFormElem = document.querySelector("#new-comment");
 const commentsCountTexts = document.querySelectorAll(".comments-count");
 
+function requestErrorAlert(subject) {
+    alert(`Could not send request for ${subject}. Try again later.`);
+}
+
 function updateCommentsCountBy(increment) {
     for (counterText of commentsCountTexts) {
         counterText.innerText = +counterText.innerText + increment;
     }
 }
+
 function createCommentItem(commentData) {
     const commentElement = document.createElement("li");
 
@@ -37,11 +42,23 @@ function createCommentsList(comments) {
 
 async function fetchComments() {
     const postId = loadCommentsBtnElem.dataset.postid;
-    const response = await fetch(`/posts/${postId}/comments`);
-    const responseData = await response.json();
+    try {
+        const response = await fetch(`/posts/${postId}/comments`);
 
-    commentsUListElem.innerHTML = "";
-    commentsUListElem.appendChild(createCommentsList(responseData.comments));
+        if (!response.ok) {
+            alert("Fetching comments failed.");
+            return;
+        }
+
+        const responseData = await response.json();
+
+        commentsUListElem.innerHTML = "";
+        commentsUListElem.appendChild(
+            createCommentsList(responseData.comments)
+        );
+    } catch (error) {
+        requestErrorAlert("comments");
+    }
 }
 
 function appendCommentToUi(comment) {
@@ -82,23 +99,30 @@ async function addNewComment(event) {
     }
 
     // send a POST request to store the comments
-    const response = await fetch(`/posts/${postId}/comments`, {
-        method: "POST",
-        body: JSON.stringify(comment),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    try {
+        const response = await fetch(`/posts/${postId}/comments`, {
+            method: "POST",
+            body: JSON.stringify(comment),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
-    if (response.ok) {
+        if (!response.ok) {
+            alert("Saving the comment failed.");
+            return;
+        }
+
         // no query of comments was made
-        if (!commentsCountTexts.length > 0) {
+        if (!(commentsCountTexts.length > 0)) {
             document.querySelector("#comments-board > p").textContent =
                 "You have the first comment. Update the page to see it.";
         }
 
         appendCommentToUi(comment);
-    } else alert("Could not save the comment right now.");
+    } catch (error) {
+        requestErrorAlert("adding a comment");
+    }
 }
 
 loadCommentsBtnElem?.addEventListener("click", fetchComments);
