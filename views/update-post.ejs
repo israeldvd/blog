@@ -4,13 +4,14 @@
 <head>
   <%- include('includes/head', { title: 'Update post' }) %>
   <link rel="stylesheet" href="/styles/forms.css">
+  <script src="/scripts/post-requests.js" defer></script>
 </head>
 
 <body>
   <%- include('includes/header') %>
   <main>
     <h1>Update post</h1>
-    <form action="/posts/<%= post._id %>/edit" method="POST">
+    <form id="post-info-form" data-post-id="<%= post._id %>">
       <div class="form-control">
         <label for="title">Title</label>
         <input type="text" id="title" value="<%= post.title %>" name="title" required>

@@ -207,8 +207,8 @@ router.get("/posts/:id/edit", async function (req, res, next) {
     res.render("update-post", { post: foundPost });
 });
 
-router.post("/posts/:id/edit", async function (req, res, next) {
-    const postId = new ObjectId(req.params.id);
+router.patch("/posts/:id", async function (req, res, next) {
+    const postId = req.params.id;
     let postObjectId;
 
     try {
@@ -219,22 +219,39 @@ router.post("/posts/:id/edit", async function (req, res, next) {
         return next(error);
     }
 
-    const result = await db
-        .getDb()
-        .collection("posts")
-        .updateOne(
-            { _id: postObjectId },
-            {
-                $set: {
-                    title: req.body.title,
-                    summary: req.body.summary,
-                    body: req.body.content,
-                    //date: new Date() //a data should be updated? -- it depends
-                },
-            }
-        );
+    try {
+        const result = await db
+            .getDb()
+            .collection("posts")
+            .updateOne(
+                { _id: postObjectId },
+                {
+                    $set: {
+                        title: req.body.title,
+                        summary: req.body.summary,
+                        body: req.body.content,
+                    },
+                }
+            );
 
-    res.redirect("/posts"); //see list of posts again, after updating
+        if (result.matchedCount > 0) {
+            return res.status(200).json({
+                ack: result.acknowledged,
+                message:
+                    result.modifiedCount === 1
+                        ? "Post updated!"
+                        : "Post did not change!",
+            });
+        }
+
+        res.status(404).json({
+            ack: result.acknowledged,
+            message: "Post to be updated not found!",
+        });
+    } catch (error) {
+        res.status(500).json({ ack: false, message: "Internal server error." });
+        next(error);
+    }
 });
 
 router.delete("/posts/:id", async function (req, res) {
