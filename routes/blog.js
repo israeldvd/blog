@@ -208,7 +208,7 @@ router.get("/posts/:id/edit", async function (req, res, next) {
 });
 
 router.post("/posts/:id/edit", async function (req, res, next) {
-    const postId = new ObjectId(req.params.id);
+    const postId = req.params.id;
     let postObjectId;
 
     try {
