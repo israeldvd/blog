@@ -5,6 +5,10 @@ const deleteAuthorButtons = document.querySelectorAll(
 async function deleteAuthor(event) {
     event.stopPropagation();
 
+    if (!confirm("You are trying to delete an author. Do you want to proceed?")) {
+        return;
+    }
+    
     try {
         const action = `/authors/${event.target.dataset.authorId}`;
 
