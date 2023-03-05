@@ -22,6 +22,21 @@ async function updatePost(event) {
             alert("Something went wrong with updating this post!");
             return;
         }
+
+        const responseData = await response.json();
+        if (!responseData.updated) {
+            if (
+                !confirm(
+                    responseData.message +
+                        " Do you want to remain in this page?"
+                )
+            ) {
+                window.location.replace("/posts");
+            }
+            return;
+        }
+
+        alert(responseData.message);
     } catch (error) {
         alert(
             "Could not send request to update this post. Please try again later."

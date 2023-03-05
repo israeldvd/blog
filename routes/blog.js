@@ -6,6 +6,7 @@ const multer = require("multer");
 
 const db = require("../data/database");
 const { getDb } = require("../data/database");
+const { response } = require("express");
 
 const ObjectId = mongodb.ObjectId;
 
@@ -219,6 +220,12 @@ router.patch("/posts/:id", async function (req, res, next) {
         return next(error);
     }
 
+    const responseBody = {
+        ack: false,
+        message: "",
+        updated: true,
+    };
+
     try {
         const result = await db
             .getDb()
@@ -235,21 +242,22 @@ router.patch("/posts/:id", async function (req, res, next) {
             );
 
         if (result.matchedCount > 0) {
-            return res.status(200).json({
-                ack: result.acknowledged,
-                message:
-                    result.modifiedCount === 1
-                        ? "Post updated!"
-                        : "Post did not change!",
-            });
+            responseBody.ack = result.acknowledged;
+            responseBody.updated = result.modifiedCount === 1;
+            responseBody.message = responseBody.updated
+                ? "Post updated!"
+                : "Post did not change!";
+            return res.status(200).json(responseBody);
         }
 
-        res.status(404).json({
-            ack: result.acknowledged,
-            message: "Post to be updated not found!",
-        });
+        responseBody.ack = result.acknowledged;
+        responseBody.message = "Post to be updated not found!";
+        res.status(404).json(responseBody);
     } catch (error) {
-        res.status(500).json({ ack: false, message: "Internal server error." });
+        responseBody.ack = false;
+        responseBody.message = "Internal server error.";
+        responseBody.updated = false;
+        res.status(500).json(responseBody);
         next(error);
     }
 });
