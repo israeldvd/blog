@@ -18,6 +18,10 @@ app.use("/images", express.static("images"));
 
 app.use(blogRoutes);
 
+app.use(function (req, res, next) {
+    res.status(404).render("404");
+});
+
 app.use(function (error, req, res, next) {
     // Default error handling function
     // Will become active whenever any route / middleware crashes
