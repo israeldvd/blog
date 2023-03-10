@@ -2,6 +2,7 @@ const path = require("path");
 
 const express = require("express");
 
+const authRoutes = require("./routes/auth");
 const blogRoutes = require("./routes/blog");
 const db = require("./data/database");
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.static("public")); // Serve static files (e.g. CSS files)
 app.use("/images", express.static("images"));
 
+app.use(authRoutes);
 app.use(blogRoutes);
 
 app.use(function (req, res, next) {
