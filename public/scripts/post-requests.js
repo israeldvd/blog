@@ -24,19 +24,15 @@ async function updatePost(event) {
         }
 
         const responseData = await response.json();
-        if (!responseData.updated) {
-            if (
-                !confirm(
-                    responseData.message +
-                        " Do you want to remain in this page?"
-                )
-            ) {
-                window.location.replace("/posts");
-            }
+        if (responseData.updated) {
+            alert(responseData.message);
+        } else if (
+            !confirm(`${responseData.message} Go back to the list of posts?`)
+        ) {
             return;
         }
 
-        alert(responseData.message);
+        window.location.replace("/posts");
     } catch (error) {
         alert(
             "Could not send request to update this post. Please try again later."
