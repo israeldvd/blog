@@ -1,5 +1,3 @@
-const postInfoFormElem = document.getElementById("post-info-form");
-
 async function updatePost(event) {
     event.preventDefault();
 
@@ -40,4 +38,36 @@ async function updatePost(event) {
     }
 }
 
-postInfoFormElem.addEventListener("submit", updatePost);
+async function deletePost(event) {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (!confirm("You are trying to delete a post. Do you want to proceed?")) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/posts/${event.target.dataset.postId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        });
+
+        if (!response.ok) {
+            alert("Something went wrong while deleting this post.");
+            return;
+        }
+
+        const responseData = await response.json();
+        alert(responseData.message);
+
+        if (responseData.deleted) window.location.replace("/posts");
+    } catch (error) {
+        alert("Could not send request to delete post. Please try again later.");
+    }
+
+    return;
+}
+
+export { updatePost, deletePost };

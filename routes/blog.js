@@ -264,12 +264,34 @@ router.patch("/posts/:id", async function (req, res, next) {
 
 router.delete("/posts/:id", async function (req, res) {
     const postId = new ObjectId(req.params.id);
-    const result = await db
-        .getDb()
-        .collection("posts")
-        .deleteOne({ _id: postId });
-    console.log(result);
-    res.redirect("/posts");
+
+    const responseBody = {
+        ack: false,
+        message: "",
+        deleted: true,
+    };
+
+    try {
+        const result = await db
+            .getDb()
+            .collection("posts")
+            .deleteOne({ _id: postId });
+        console.log(result);
+
+        const isPostDeleted = result.deletedCount === 1;
+        responseBody.deleted = isPostDeleted;
+        if (isPostDeleted) {
+            responseBody.message = "Post deleted sucessfully!";
+            res.status(200).json(responseBody);
+        } else {
+            responseBody.message = "Author not found.";
+            res.status(404).json(responseBody);
+        }
+        return;
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" });
+        next(error);
+    }
 });
 
 router.get("/posts/:id/comments", async function (req, res) {
