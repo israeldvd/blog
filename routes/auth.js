@@ -5,6 +5,46 @@ const db = require("../data/database");
 
 const router = express.Router();
 
+router.get("/login", function (req, res) {
+    res.render("login");
+});
+
+router.post("/login", async function (req, res) {
+    const userData = {
+        email: req.body["user-email"],
+        password: req.body["user-password"],
+    };
+
+    try {
+        const matchingUser = await db.getDb().collection("users").findOne({
+            email: userData.email,
+        });
+
+        if (matchingUser) {
+            const arePasswordsEqual = await bcrypt.compare(
+                userData.password,
+                matchingUser.password
+            );
+
+            if (!arePasswordsEqual) {
+                console.log("Could not log in user: passwords don't match.");
+                return res.redirect("/");
+            }
+
+            //authenticated
+            console.log("User authenticated");
+            res.status(200).redirect("/");
+        } else {
+            res.status(404).send("User not found");
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).render("500");
+    }
+
+    return;
+});
+
 router.get("/signup", function (req, res) {
     res.render("signup");
 });
