@@ -50,12 +50,37 @@ router.get("/signup", function (req, res) {
 });
 
 router.post("/signup", async function (req, res) {
-    const hashPass = await bcrypt.hash(req.body["user-password"], 11);
+    const userReqName = req.body["user-name"];
+    const userReqEmail = req.body["user-email"];
+    const userReqConfirmEmail = req.body["user-confirm-email"];
+    const userReqPassword = req.body["user-password"];
+    const userReqConfirmPassword = req.body["user-confirm-password"];
+
+    if (
+        !userReqEmail ||
+        !userReqConfirmEmail ||
+        userReqEmail != userReqConfirmEmail ||
+        !userReqPassword ||
+        !userReqConfirmPassword ||
+        userReqPassword !== userReqConfirmPassword ||
+        userReqEmail.length < 5 ||
+        userReqPassword.length < 8 ||
+        !userReqEmail.includes("@") ||
+        !userReqEmail.includes(".")
+    ) {
+        console.log("User data contain one or more errors or mismatches.");
+        return res.status(400).render("400", { previousRoute: "/signup" });
+    }
+
+    const hashPass = await bcrypt.hash(userReqPassword, 11);
+    const hashConfirmPass = await bcrypt.hash(userReqConfirmPassword, 11);
 
     const userData = {
-        name: req.body["user-name"],
-        email: req.body["user-email"],
+        name: userReqName,
+        email: userReqEmail,
+        confirmEmail: userReqConfirmEmail,
         password: hashPass,
+        confirmPassword: hashConfirmPass,
     };
 
     try {

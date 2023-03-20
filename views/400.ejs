@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('includes/head', { title: 'Not found!' }) %>
+</head>
+
+<body>
+  <%- include('includes/header') %>
+  <main>
+    <h1>Bad request!</h1>
+    <p>We are not able to process your request. Please revisit your requisition or input data.</p>
+    <a class="btn" href="<%= previousRoute?previousRoute:"/" %>">Back to where your were.</a>
+  </main>
+</body>
+
+</html>
